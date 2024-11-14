@@ -2,7 +2,7 @@ import React from 'react'
 
 const gitcourse = () => {
   return (
-    <div>GIT Course</div>
+    <div>GIT Course with B</div>
   )
 }
 
