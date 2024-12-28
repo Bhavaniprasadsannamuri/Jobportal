@@ -12,13 +12,23 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { Link, useNavigate } from 'react-router-dom';
+import { colors } from '@mui/material';
+import { theme } from '../theme';
+import { userLogoutAction } from '../redux/actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'login', 'Dashboard', 'Logout'];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { userInfo } = useSelector((state) => state.userSignin);
+  // const { palette } = useTheme();
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,6 +43,18 @@ function NavBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const logoutuser = () => {
+    dispatch(userLogoutAction());
+    // window.location.reload(true);
+    
+    setTimeout(() => {
+      navigate("/");
+      
+      //  toast.success("logout successful");
+      window.location.reload(true);
+    }, 500);
+   
   };
 
   return (
@@ -112,15 +134,7 @@ function NavBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))} */}
+            
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -144,11 +158,20 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+              
+                <MenuItem  onClick={handleCloseUserMenu}>
+                <Typography sx={{ textAlign: 'center' }}> <Link   sx={{textDecoration:"none", color:"palette.primary.midnightblue"}} to="/login" > Peofile</Link> </Typography>
+              </MenuItem>
+              {!userInfo ?
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography sx={{ textAlign: 'center', textDecoration: "none" }}> <Link style={{ color: "palette.primary.midnightblue" }} to="/login" > Login</Link> </Typography>
                 </MenuItem>
-              ))}
+                :
+                <MenuItem onClick={logoutuser}>
+                  <Typography sx={{ textDecoration: "none", color: "palette.primary.main", textAlign: "center" }}> Logout</Typography>
+                </MenuItem>
+              }
+              
             </Menu>
           </Box>
         </Toolbar>

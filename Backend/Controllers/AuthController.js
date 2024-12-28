@@ -28,7 +28,8 @@ exports.signin = async (req, res, next) => {
         if (!password) {
           return next(new ErrorResponse("please enter password", 403));
         }
-        const userexists = await User.findOne({ email });
+    const userexists = await User.findOne({ email });
+    console.log("EXECUTING SIGNIN")
         if (!userexists) {
           return next(new ErrorResponse("invalid login credentials", 400));
         }
@@ -47,7 +48,10 @@ exports.logout = (req, res, next) => {
   res.clearCookie('webtoken');
   res.status(200).json({ success: true, message: "logged out" });
 }
+
+
 const sendTokenResponse = async (userExist, codeStatus, res) => {
+  //  return jwt.sign({ id: this.id }, process.env.JWT_SECRET, { expiresIn: 3600 });
   const webtoken = await userExist.getJwtToken();
   res.status(codeStatus).cookie('webtoken', webtoken, { maxAge: 60 * 60 * 1000,httpOnly:true }).json({success:true,webtoken,userExist});
 }

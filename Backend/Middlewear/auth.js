@@ -26,7 +26,7 @@ exports.isAuthenticated = async (req, res, next) => {
 }
 exports.isAdmin = (req, res, next) => {
   console.log(req.user.role);
-  if (!req.user.role === 0) {
+  if (req.user.role === 0) {
     return next(new ErrorResponse("Access denied you must be a admin", 401));
   }
   next();

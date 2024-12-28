@@ -4,10 +4,11 @@ import {blue, lightBlue} from "@mui/material/colors"
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#7e57c2"
+      main: "#7e57c2",
+       midnightblue: "#003366"
     },
     secondary: {
-      main: lightBlue[300],
+      main: "#311b92",
       midnightblue: "#003366"
     }
     
@@ -16,3 +17,4 @@ export const theme = createTheme({
 
 // #2196f3 blue
 // #0277bd lightblue 
+//   #003366
